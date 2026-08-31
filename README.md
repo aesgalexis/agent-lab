@@ -7,9 +7,10 @@ Laboratorio local, pequeño y reproducible para ejecutar un agente OpenHands sob
 - Repositorio principal: este repositorio.
 - Ollama nativo 0.33.2 instalado en Windows y modelo `qwen2.5-coder:7b` descargado.
 - API local de Ollama verificada con una respuesta determinista.
-- Stack reproducible definido con Ollama 0.33.1 y Agent Canvas 1.16.0 en Docker Compose.
+- Docker Desktop 4.88.1 instalado por usuario; Docker 29.7.2 y Compose 5.4.0 verificados.
+- Stack reproducible definido con Ollama 0.33.1 y Agent Canvas 1.16.0; `docker compose config` validado.
 - Proyecto de prueba limitado a [`sandbox-project`](sandbox-project/README.md).
-- Pendiente en este PC: habilitar WSL 2 como administrador, reiniciar, instalar/iniciar Docker Desktop y ejecutar la prueba de agente completa.
+- Pendiente en este PC: habilitar WSL 2 como administrador, reiniciar, iniciar Docker Desktop y ejecutar la prueba de agente completa.
 
 ## Arquitectura
 
@@ -107,6 +108,7 @@ Para modelos de mayor tamaño probablemente hará falta más RAM o inferencia re
 - [`docs/windows-setup.md`](docs/windows-setup.md): instalación y comprobaciones de Windows.
 - [`docs/e2e-test.md`](docs/e2e-test.md): prueba completa y revisión de cambios.
 - [`docs/troubleshooting.md`](docs/troubleshooting.md): problemas encontrados y soluciones.
+- [`docs/validation.md`](docs/validation.md): evidencias ejecutadas y trabajo pendiente.
 
 ## Fuentes de referencia
 

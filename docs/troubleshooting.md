@@ -4,6 +4,10 @@
 
 `wsl --install --no-distribution` devolvió que WSL no estaba instalado, y DISM desde la sesión no elevada devolvió el error 740. Solución: ejecutar los dos comandos DISM de [`windows-setup.md`](windows-setup.md) en PowerShell como administrador y reiniciar.
 
+## El instalador de Docker Desktop no terminaba
+
+La instalación por usuario extrajo correctamente Docker Desktop 4.88.1, añadió la CLI al PATH y dejó Docker/Compose operativos, pero sus procesos bootstrap no finalizaron mientras WSL seguía ausente. Tras verificar los binarios y el manifiesto firmado, se detuvieron esos procesos. No se debe iniciar el engine hasta habilitar WSL 2 y reiniciar.
+
 ## La aplicación de bandeja de Ollama no mantenía la API
 
 Ollama 0.33.2 se instaló correctamente, pero la GUI agotó el tiempo de espera y dejó `server.log` vacío. El binario `ollama serve` sí funcionó. Los scripts del repositorio gestionan el servidor nativo explícitamente y guardan sus logs en `.runtime/logs`, evitando depender del estado de la bandeja.

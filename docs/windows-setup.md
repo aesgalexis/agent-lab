@@ -6,7 +6,8 @@
 - GPU integrada AMD Radeon 740M, controlador `32.0.21030.5005`.
 - Git 2.55.0 instalado.
 - Ollama 0.33.2 instalado; `qwen2.5-coder:7b` ocupa aproximadamente 4,7 GB.
-- WSL, Docker, Node, npm y Python no estaban instalados.
+- Docker Desktop 4.88.1 instalado en modo por usuario, con Docker 29.7.2 y Compose 5.4.0.
+- WSL, Node, npm y Python no estaban instalados inicialmente; WSL sigue pendiente.
 - Node, npm y Python no son requisitos del host para la arquitectura elegida.
 
 ## Paso manual con administrador
@@ -33,7 +34,7 @@ WSL debe ser 2.1.5 o posterior. No hace falta instalar Ubuntu: Docker Desktop ma
 
 ## Docker Desktop
 
-Instala Docker Desktop en modo por usuario con backend WSL 2. Es el modo recomendado actual y no añade soporte innecesario para contenedores Windows ni el servicio privilegiado permanente.
+Docker Desktop ya está instalado en este PC en modo por usuario con backend WSL 2 y sin soporte para contenedores Windows. Es el modo recomendado actual y evita componentes innecesarios. El siguiente comando documenta cómo reproducir esa instalación en otro equipo.
 
 Después de descargar el instalador oficial:
 

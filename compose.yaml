@@ -1,0 +1,43 @@
+name: agent-lab
+
+services:
+  ollama:
+    image: ${OLLAMA_IMAGE}
+    container_name: agent-lab-ollama
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH}
+      OLLAMA_KEEP_ALIVE: 10m
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - type: bind
+        source: ${OLLAMA_DATA_PATH}
+        target: /root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: "no"
+
+  agent-canvas:
+    image: ${AGENT_CANVAS_IMAGE}
+    container_name: agent-lab-canvas
+    environment:
+      LOCAL_BACKEND_API_KEY: ${LOCAL_BACKEND_API_KEY}
+      OH_SECRET_KEY: ${OH_SECRET_KEY}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - type: bind
+        source: ./.runtime/openhands
+        target: /home/openhands/.openhands
+      - type: bind
+        source: ./sandbox-project
+        target: /projects/sandbox-project
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"

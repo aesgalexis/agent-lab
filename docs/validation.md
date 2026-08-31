@@ -20,6 +20,8 @@ Fecha: 31-08-2026, zona horaria Europe/Madrid.
 | Agent Canvas / Agent Server | 1.16.0 / 1.44.0 |
 | Red interna | Agent Canvas inventaría Qwen mediante `http://ollama:11434/v1/models` |
 | Perfil OpenHands | `ollama-local`, validado mediante completion y activado por API |
+| Perfil de agente | `default` (`openhands`) enlazado a `ollama-local`, materialización válida y clave disponible |
+| Interfaz Agent Canvas | onboarding cerrado; `ollama-local` predeterminado; `sandbox-project` seleccionado |
 | Scripts PowerShell | todos analizados por el parser sin errores |
 | Exclusión de secretos/estado | `.env` y `.runtime/` confirmados mediante `git check-ignore` |
 | Fixture del agente | dos tests fallan antes de la reparación, como se esperaba |

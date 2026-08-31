@@ -45,6 +45,10 @@ El modelo debe incluir el prefijo `openai/` en Agent Canvas, pero no en el inven
 
 Con `native_tool_calling=true`, `qwen2.5-coder:7b` devolvió `{"name":"task_tracker",...}` como un mensaje normal y OpenHands terminó sin ejecutar la herramienta. El perfil reproducible fija `native_tool_calling=false`; así el SDK inyecta su formato de herramientas y produjo `TerminalAction` y `FileEditorAction` válidas. Esta opción es deliberada para este modelo, no una configuración legacy de la interfaz.
 
+## La portada sigue mostrando GPT tras configurar el perfil
+
+Agent Canvas mantiene por separado el perfil LLM activo y el perfil de agente. Activar sólo el primero puede dejar el agente `default` referenciando el perfil GPT vacío creado durante la bienvenida. `configure-openhands.ps1` actualiza ambas referencias y materializa el agente para comprobar que la combinación es válida. En una instalación ya abierta, selecciona además `ollama-local` como `Default` en `Settings > LLM` y el workspace `Agent Lab Sandbox` en `Open Workspace`.
+
 ## Primera iteración lenta
 
 El prompt inicial de OpenHands fue de aproximadamente 7.700 tokens y, usando CPU, tardó varios minutos en procesarse. Ollama mostró uso de unos seis núcleos y cerca de 5,9 GiB. No era un bloqueo: después de crear la caché, las acciones posteriores tardaron decenas de segundos. Para mayor velocidad o modelos mayores, conserva la arquitectura y mueve sólo el endpoint de inferencia a hardware remoto.

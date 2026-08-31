@@ -49,7 +49,7 @@ Desde PowerShell, en la raíz del repositorio:
 .\scripts\start.ps1
 ```
 
-`start.ps1` valida y activa automáticamente el perfil `ollama-local` y registra el workspace. Abre <http://127.0.0.1:8000/canvas> para usar la interfaz o ejecuta `scripts/run-agent-test.ps1` para la demostración automatizada. El procedimiento completo y las evidencias están en [`docs/e2e-test.md`](docs/e2e-test.md).
+`start.ps1` valida y activa automáticamente el perfil `ollama-local`, lo enlaza al agente OpenHands `default` y registra el workspace. Abre <http://127.0.0.1:8000/canvas> para usar la interfaz o ejecuta `scripts/run-agent-test.ps1` para la demostración automatizada. El procedimiento completo y las evidencias están en [`docs/e2e-test.md`](docs/e2e-test.md).
 
 ## Comandos habituales
 

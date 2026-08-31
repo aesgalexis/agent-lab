@@ -27,7 +27,7 @@ La última orden debe mostrar `AGENT_LAB_MODEL_OK` y el identificador `qwen2.5-c
 
 ## 3. Configurar Agent Canvas
 
-`start.ps1` llama a `configure-openhands.ps1`. Este script usa la API actual de Agent Server para validar una inferencia, guardar y activar `ollama-local`, y registrar `/projects/sandbox-project`. La clave de sesión se lee de `.env` y nunca se imprime.
+`start.ps1` llama a `configure-openhands.ps1`. Este script usa la API actual de Agent Server para validar una inferencia, guardar y activar `ollama-local`, enlazarlo al perfil de agente OpenHands `default`, materializar ese agente para detectar referencias rotas y registrar `/projects/sandbox-project`. La clave de sesión se lee de `.env` y nunca se imprime.
 
 Para comprobarlo o regenerarlo sin reiniciar:
 

@@ -15,18 +15,19 @@ Fecha: 31-08-2026, zona horaria Europe/Madrid.
 | Docker Desktop | 4.88.1, instalación por usuario |
 | Docker CLI | 29.7.2 |
 | Docker Compose | 5.4.0 |
-| Compose del laboratorio | sintaxis, imágenes y servicios validados con `docker compose config` |
+| WSL | 2.7.12; kernel 6.18.33.2; versión predeterminada 2 |
+| Compose del laboratorio | ambos contenedores activos; Ollama saludable; Canvas HTTP 200 |
+| Agent Canvas / Agent Server | 1.16.0 / 1.44.0 |
+| Red interna | Agent Canvas inventaría Qwen mediante `http://ollama:11434/v1/models` |
+| Perfil OpenHands | `ollama-local`, validado mediante completion y activado por API |
 | Scripts PowerShell | todos analizados por el parser sin errores |
 | Exclusión de secretos/estado | `.env` y `.runtime/` confirmados mediante `git check-ignore` |
 | Fixture del agente | dos tests fallan antes de la reparación, como se esperaba |
+| Conversación E2E | `183f685c-c730-44d2-8838-554fd5c8f15c`, estado `finished`, 29 eventos |
+| Uso del modelo por OpenHands | `openai/qwen2.5-coder:7b`, 32768 de contexto, coste registrado 0 |
+| Herramientas observadas | terminal, editor de archivos y finalización estructurada |
+| Resultado | 2 tests ejecutados tras la edición, 2 correctos; `AGENT_RESULT.md` creado |
 
-## Pendiente tras reinicio
+## Resultado de la fase 1
 
-1. Habilitar las características WSL y Virtual Machine Platform desde PowerShell como administrador.
-2. Reiniciar Windows, actualizar WSL e iniciar Docker Desktop.
-3. Descargar/verificar las dos imágenes fijadas y arrancar Compose.
-4. Configurar el perfil local en Agent Canvas.
-5. Ejecutar la tarea de `sandbox-project/TASK.md` con OpenHands.
-6. Verificar tests, `AGENT_RESULT.md`, conversación y diff; crear un commit separado con el resultado del agente.
-
-No se marca la prueba OpenHands como completada hasta disponer de esas evidencias.
+La prueba OpenHands está completada. La primera conversación con llamadas nativas quedó registrada como diagnóstico; la segunda usó el conversor no nativo, ejecutó ocho acciones y completó el ciclo solicitado. El estado y las conversaciones permanecen en `.runtime/openhands`.

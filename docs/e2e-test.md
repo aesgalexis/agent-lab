@@ -1,6 +1,10 @@
 # Prueba de extremo a extremo
 
-La prueba parte de un fallo deliberado en `sandbox-project/src/text_stats.py`. El agente debe leer la tarea, inspeccionar archivos, corregir el código, ejecutar `unittest` y dejar un resumen. No se debe corregir manualmente antes de la conversación.
+La prueba parte de un fallo deliberado en `sandbox-project/src/text_stats.py`. El agente debe leer la tarea, inspeccionar archivos, corregir el código, ejecutar `unittest` y dejar un resumen. El repositorio conserva el resultado validado; para repetir la demostración, restaura primero el fixture de forma explícita:
+
+```powershell
+.\scripts\reset-sandbox.ps1
+```
 
 ## 1. Línea base
 
@@ -23,15 +27,23 @@ La última orden debe mostrar `AGENT_LAB_MODEL_OK` y el identificador `qwen2.5-c
 
 ## 3. Configurar Agent Canvas
 
-1. Abre <http://127.0.0.1:8000/canvas>.
-2. En `Settings > LLM`, pestaña `Advanced`, crea `ollama-qwen-coder-7b`.
-3. Usa modelo `openai/qwen2.5-coder:7b`, base URL `http://ollama:11434/v1` y API key `local-llm`.
-4. En `Settings > Agent`, asigna ese perfil al agente OpenHands.
-5. Abre el workspace `/projects/sandbox-project`.
+`start.ps1` llama a `configure-openhands.ps1`. Este script usa la API actual de Agent Server para validar una inferencia, guardar y activar `ollama-local`, y registrar `/projects/sandbox-project`. La clave de sesión se lee de `.env` y nunca se imprime.
+
+Para comprobarlo o regenerarlo sin reiniciar:
+
+```powershell
+.\scripts\configure-openhands.ps1
+```
 
 ## 4. Tarea del agente
 
-Copia como mensaje el contenido de `sandbox-project/TASK.md`. No le des instrucciones adicionales ni edites el proyecto durante la ejecución.
+Desde el fixture restaurado, ejecuta:
+
+```powershell
+.\scripts\run-agent-test.ps1
+```
+
+El script crea una conversación con las herramientas `terminal` y `file_editor`, `native_tool_calling=false`, máximo 20 iteraciones y workspace limitado. También puede hacerse desde <http://127.0.0.1:8000/canvas> usando el perfil `ollama-local` y el contenido de `sandbox-project/TASK.md`.
 
 El resultado esperado es:
 
@@ -50,3 +62,5 @@ git diff -- sandbox-project
 ```
 
 Revisa el diff antes de aceptar o confirmar cambios. Conserva la conversación en `.runtime/openhands` y realiza un commit separado para el resultado del agente; así se distingue con claridad la infraestructura del trabajo producido por el modelo.
+
+La primera carga de contexto en CPU puede tardar varios minutos. Las iteraciones posteriores reutilizan caché y fueron notablemente más rápidas en el PC validado.

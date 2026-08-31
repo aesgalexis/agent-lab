@@ -13,11 +13,12 @@ Las versiones se fijan en `.env.example` y se copian a `.env` durante el bootstr
 | Componente | Responsabilidad | Ubicación |
 | --- | --- | --- |
 | Agent Canvas | UI, conversaciones, terminal, archivos y configuración | contenedor `agent-lab-canvas` |
-| OpenHands Agent Server | ejecución del agente y sus herramientas | incluido en Agent Canvas |
+| OpenHands Agent Server 1.44.0 | ejecución del agente y sus herramientas | incluido en Agent Canvas 1.16.0 |
 | Ollama | API de inferencia local compatible con OpenAI | contenedor `agent-lab-ollama` |
 | Qwen 2.5 Coder 7B | modelo inicial de código | `%USERPROFILE%/.ollama` |
 | Docker Desktop/WSL 2 | runtime y aislamiento Linux | dependencia externa de Windows |
 | `sandbox-project` | workspace controlado para la prueba | repositorio, montado de forma exclusiva |
+| `fixtures` | estado defectuoso reproducible para repetir la prueba | repositorio, fuera del montaje del agente |
 
 ## Flujo de una tarea
 
@@ -27,6 +28,8 @@ Las versiones se fijan en `.env.example` y se copian a `.env` durante el bootstr
 4. Las herramientas del agente leen, escriben o ejecutan comandos dentro del contenedor.
 5. El único código del host visible es `sandbox-project`.
 6. Los cambios aparecen directamente en Git y se revisan con `git diff -- sandbox-project`.
+
+El perfil `ollama-local` usa la interfaz OpenAI-compatible con `native_tool_calling=false`. Qwen 2.5 Coder 7B sobre Ollama puede serializar una llamada nativa como JSON de texto; el conversor de herramientas del SDK transforma en cambio las acciones a eventos estructurados que Agent Server puede ejecutar.
 
 ## Seguridad y red
 

@@ -1,8 +1,8 @@
 # Problemas encontrados y soluciones
 
-## WSL no está instalado
+## WSL no estaba instalado
 
-`wsl --install --no-distribution` devolvió que WSL no estaba instalado, y DISM desde la sesión no elevada devolvió el error 740. Solución: ejecutar los dos comandos DISM de [`windows-setup.md`](windows-setup.md) en PowerShell como administrador y reiniciar.
+`wsl --install --no-distribution` devolvió que WSL no estaba instalado, y DISM desde la sesión no elevada devolvió el error 740. Se habilitaron `Microsoft-Windows-Subsystem-Linux` y `VirtualMachinePlatform` desde PowerShell elevado. DISM devolvió 3010, que significa éxito pendiente de reinicio, no fallo. Tras reiniciar quedaron activos WSL 2.7.12 y kernel 6.18.33.2.
 
 ## El instalador de Docker Desktop no terminaba
 
@@ -40,3 +40,15 @@ docker compose exec agent-canvas python -c "import urllib.request; print(urllib.
 ```
 
 El modelo debe incluir el prefijo `openai/` en Agent Canvas, pero no en el inventario de Ollama. La URL debe ser `http://ollama:11434/v1`, nunca `127.0.0.1`, porque el backend vive en otro contenedor.
+
+## Qwen devuelve la herramienta como JSON de texto
+
+Con `native_tool_calling=true`, `qwen2.5-coder:7b` devolvió `{"name":"task_tracker",...}` como un mensaje normal y OpenHands terminó sin ejecutar la herramienta. El perfil reproducible fija `native_tool_calling=false`; así el SDK inyecta su formato de herramientas y produjo `TerminalAction` y `FileEditorAction` válidas. Esta opción es deliberada para este modelo, no una configuración legacy de la interfaz.
+
+## Primera iteración lenta
+
+El prompt inicial de OpenHands fue de aproximadamente 7.700 tokens y, usando CPU, tardó varios minutos en procesarse. Ollama mostró uso de unos seis núcleos y cerca de 5,9 GiB. No era un bloqueo: después de crear la caché, las acciones posteriores tardaron decenas de segundos. Para mayor velocidad o modelos mayores, conserva la arquitectura y mueve sólo el endpoint de inferencia a hardware remoto.
+
+## Git detecta propiedad dudosa en el montaje
+
+Git dentro del contenedor detectó distinta identidad de propietario para el bind mount de Windows. Compose establece `safe.directory=/projects/sandbox-project` mediante variables `GIT_CONFIG_*`; el permiso queda limitado a este único workspace y no modifica la configuración Git del host.

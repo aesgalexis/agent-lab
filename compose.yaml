@@ -28,6 +28,9 @@ services:
     environment:
       LOCAL_BACKEND_API_KEY: ${LOCAL_BACKEND_API_KEY}
       OH_SECRET_KEY: ${OH_SECRET_KEY}
+      GIT_CONFIG_COUNT: 1
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: /projects/sandbox-project
     ports:
       - "127.0.0.1:8000:8000"
     volumes:

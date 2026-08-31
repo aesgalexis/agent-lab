@@ -7,10 +7,11 @@
 - Git 2.55.0 instalado.
 - Ollama 0.33.2 instalado; `qwen2.5-coder:7b` ocupa aproximadamente 4,7 GB.
 - Docker Desktop 4.88.1 instalado en modo por usuario, con Docker 29.7.2 y Compose 5.4.0.
-- WSL, Node, npm y Python no estaban instalados inicialmente; WSL sigue pendiente.
+- WSL, Node, npm y Python no estaban instalados inicialmente; WSL quedó instalado tras habilitar las características y reiniciar.
+- WSL 2.7.12, kernel 6.18.33.2 y versión predeterminada 2 verificados.
 - Node, npm y Python no son requisitos del host para la arquitectura elegida.
 
-## Paso manual con administrador
+## Paso de administrador para reproducir la instalación
 
 Abre **PowerShell como administrador** y ejecuta exactamente:
 
@@ -20,7 +21,7 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 Restart-Computer
 ```
 
-El reinicio es necesario para activar el hipervisor y WSL 2. Si Windows informa que la virtualización está deshabilitada, actívala en BIOS/UEFI antes de continuar.
+El reinicio es necesario para activar el hipervisor y WSL 2. El código de salida DISM 3010 indica que la operación tuvo éxito y necesita reinicio. Si Windows informa que la virtualización está deshabilitada, actívala en BIOS/UEFI antes de continuar.
 
 Después del reinicio, abre PowerShell normal:
 

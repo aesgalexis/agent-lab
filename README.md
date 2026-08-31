@@ -8,9 +8,10 @@ Laboratorio local, pequeño y reproducible para ejecutar un agente OpenHands sob
 - Ollama nativo 0.33.2 instalado en Windows y modelo `qwen2.5-coder:7b` descargado.
 - API local de Ollama verificada con una respuesta determinista.
 - Docker Desktop 4.88.1 instalado por usuario; Docker 29.7.2 y Compose 5.4.0 verificados.
-- Stack reproducible definido con Ollama 0.33.1 y Agent Canvas 1.16.0; `docker compose config` validado.
+- WSL 2.7.12, kernel 6.18.33.2 y backend WSL 2 operativos.
+- Stack reproducible ejecutándose con Ollama 0.33.1, Agent Canvas 1.16.0 y Agent Server 1.44.0.
 - Proyecto de prueba limitado a [`sandbox-project`](sandbox-project/README.md).
-- Pendiente en este PC: habilitar WSL 2 como administrador, reiniciar, iniciar Docker Desktop y ejecutar la prueba de agente completa.
+- Ciclo completo verificado: el agente leyó archivos, observó dos tests fallidos, editó el código, repitió los tests con resultado `OK` y dejó un diff revisable.
 
 ## Arquitectura
 
@@ -37,7 +38,7 @@ Consulta las decisiones y extensiones previstas en [`docs/architecture.md`](docs
 - Docker Desktop con backend WSL 2.
 - Git.
 
-No hacen falta Node, npm ni Python en Windows: viven en el entorno del agente. Sigue [`docs/windows-setup.md`](docs/windows-setup.md) para completar el único paso de administrador pendiente.
+No hacen falta Node, npm ni Python en Windows: viven en el entorno del agente. Consulta [`docs/windows-setup.md`](docs/windows-setup.md) para preparar otro PC.
 
 ## Arranque rápido
 
@@ -48,14 +49,7 @@ Desde PowerShell, en la raíz del repositorio:
 .\scripts\start.ps1
 ```
 
-Abre <http://127.0.0.1:8000/canvas>. En el primer arranque crea un perfil LLM avanzado:
-
-- Nombre: `ollama-qwen-coder-7b`
-- Modelo: `openai/qwen2.5-coder:7b`
-- Base URL: `http://ollama:11434/v1`
-- API key: `local-llm`
-
-Después selecciona ese perfil en `Settings > Agent`, abre el workspace `/projects/sandbox-project` y usa la tarea de [`sandbox-project/TASK.md`](sandbox-project/TASK.md). El procedimiento completo y las evidencias esperadas están en [`docs/e2e-test.md`](docs/e2e-test.md).
+`start.ps1` valida y activa automáticamente el perfil `ollama-local` y registra el workspace. Abre <http://127.0.0.1:8000/canvas> para usar la interfaz o ejecuta `scripts/run-agent-test.ps1` para la demostración automatizada. El procedimiento completo y las evidencias están en [`docs/e2e-test.md`](docs/e2e-test.md).
 
 ## Comandos habituales
 
@@ -72,6 +66,15 @@ Después selecciona ese perfil en `Settings > Agent`, abre el workspace `/projec
 # Probar directamente el endpoint compatible con OpenAI
 .\scripts\test-model.ps1
 
+# Configurar o regenerar el perfil local de OpenHands
+.\scripts\configure-openhands.ps1
+
+# Restaurar explícitamente el fallo deliberado para repetir la demostración
+.\scripts\reset-sandbox.ps1
+
+# Lanzar y monitorizar la prueba completa
+.\scripts\run-agent-test.ps1
+
 # Verificar el resultado después de que trabaje el agente
 .\scripts\verify-agent-result.ps1
 
@@ -83,8 +86,8 @@ Después selecciona ese perfil en `Settings > Agent`, abre el workspace `/projec
 
 1. Cambia `OLLAMA_MODEL` en `.env`.
 2. Ejecuta `.\scripts\start.ps1`; descargará el modelo si falta.
-3. Crea o edita un perfil LLM de Agent Canvas usando `openai/<modelo>`.
-4. Usa una conversación nueva o cambia de perfil con `/model`.
+3. `start.ps1` regenera y activa el perfil `ollama-local` con `openai/<modelo>`.
+4. Usa una conversación nueva para que el cambio se aplique de forma inequívoca.
 
 Para modelos de mayor tamaño probablemente hará falta más RAM o inferencia remota. No cambies `OLLAMA_CONTEXT_LENGTH` por debajo de 22000 para OpenHands; este laboratorio usa 32768.
 
